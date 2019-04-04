@@ -1,3 +1,5 @@
+ var messageApi = Vue.resource('message{/id}');
+
 // Define a new component called message-item
 Vue.component('message-item', {
     props: ['message'],
@@ -6,19 +8,20 @@ Vue.component('message-item', {
 // Define a new component called messages-list
 Vue.component('messages-list', {
     props: ['messages'],
-    template: '<ol><message-item v-for="message in messages" :key="message.id" :message="message" /></ol>'
+    template: '<ol><message-item v-for="message in messages" :key="message.id" :message="message" /></ol>',
+    created: function(){
+        messageApi.get().then(result =>
+        result.json().then(data =>
+        this.messages.push(...data)
+        )
+        )
+    }
 });
 
 var app = new Vue({
   el: '#app',
   template: '<messages-list :messages="messages" />',
   data: {
-    messages: [
-    {id: '1', text: 'message 1'},
-    {id: '2', text: 'message 2'},
-    {id: '3', text: 'message 3'},
-    {id: '4', text: 'message 4'},
-    {id: '5', text: 'message 5'}
-    ]
+    messages: []
   }
 });
