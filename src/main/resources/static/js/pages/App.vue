@@ -1,11 +1,22 @@
 <template>
-    <div>
-        <div v-if="!profile">Must login with <a href="/login">Google</a></div>
-        <div v-else>
-            <div>{{profile.name}}&nbsp;<a href="/logout">Logout</a></div>
+    <v-app>
+    <v-toolbar>
+    <v-toolbar-title>Demo Spring-Boot Vue App</v-toolbar-title>
+     <v-spacer></v-spacer>
+       <span v-if="profile">{{profile.name}}</span>
+       <v-btn v-if="profile" icon href="/logout">
+           <v-icon>exit_to_app</v-icon>
+       </v-btn>
+    </v-toolbar>
+    <v-content>
+        <v-container v-if="!profile">
+            Must login with <v-btn flat small href="/login">Google</v-btn>
+        </v-container>
+        <v-container v-if="profile">
              <messages-list :messages="messages" />
-        </div>
-  </div>
+        </v-container>
+    </v-content>
+    </v-app>
 </template>
 
 <script>
